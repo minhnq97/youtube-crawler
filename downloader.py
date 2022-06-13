@@ -7,7 +7,8 @@
 # Distributed under terms of the MIT license.
 
 from __future__ import unicode_literals
-import youtube_dl
+#import youtube_dl
+import yt_dlp as youtube_dl
 import sys
 import os
 

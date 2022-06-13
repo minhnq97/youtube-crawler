@@ -9,7 +9,8 @@
 import os
 import sys
 from downloader import Downloader
-import youtube_dl
+#import youtube_dl
+import yt_dlp as youtube_dl
 import traceback
 from youtube_dl.utils import DownloadError, ExtractorError
 
@@ -33,7 +34,7 @@ def _download(url):
             dl.download()
             #info = dl.extract_info()
             #return info
-            flag = True
+            flag = False
         except Exception as e:
             flag = True
             print("Error: ",e)
@@ -54,16 +55,15 @@ if __name__ == "__main__":
     for url in url_list:
         try:
             meta = ydl.extract_info(url, download=False)
-            #if meta.get('_type', '') == 'playlist':
-            #    url_playlist = [data['webpage_url'] for data in meta['entries'] if data != None]
-            #    for u in url_playlist:
-            #        print(u)
-            #        #info = _download(u)
-            #        #print("METAINFO:",info['id'], info['webpage_url'])
-            #else:
-            #    info = _download(url)
-            #    print("METAINFO:",info['id'], info['webpage_url'])
-            #break
+            if meta.get('_type', '') == 'playlist':
+                url_playlist = [data['webpage_url'] for data in meta['entries'] if data != None]
+                for u in url_playlist:
+                    print(u)
+                    #info = _download(u)
+                    #print("METAINFO:",info['id'], info['webpage_url'])
+            else:
+                info = _download(url)
+                #print("METAINFO:",info['id'], info['webpage_url'])
 
         except DownloadError as e:
             print(traceback.print_exc())
